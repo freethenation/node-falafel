@@ -4,6 +4,8 @@ falafel
 Transform the [ast](http://en.wikipedia.org/wiki/Abstract_syntax_tree) on a
 recursive walk.
 
+[![build status](https://secure.travis-ci.org/substack/node-falafel.png)](http://travis-ci.org/substack/node-falafel)
+
 This module is like [burrito](https://github.com/substack/node-burrito),
 except that it uses [esprima](http://esprima.org) instead of
 [uglify](https://github.com/mishoo/UglifyJS)
