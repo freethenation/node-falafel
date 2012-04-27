@@ -8,9 +8,7 @@ var src = '(' + function () {
 
 var output = falafel(src, function (node) {
     if (node.type === 'ArrayExpression') {
-        node.update(function (s) {
-            return 'fn(' + s + ')';
-        });
+        node.update('fn(' + node.source() + ')');
     }
 });
 console.log(output);

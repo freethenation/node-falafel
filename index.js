@@ -7,15 +7,14 @@ module.exports = function (src, fn) {
     var output = src.split('');
     var index = 0;
     
-    function insertUpdate (node) {
+    function insertHelpers (node) {
         if (!node.range) return;
         node.source = function () {
             return output.slice(node.range[0], node.range[1] + 1).join('');
         };
         
-        node.update = function (cb) {
-            var res = cb(node.source());
-            output[node.range[0]] = res;
+        node.update = function (s) {
+            output[node.range[0]] = s;
             for (var i = node.range[0] + 1; i < node.range[1] + 1; i++) {
                 output[i] = '';
             }
@@ -23,7 +22,7 @@ module.exports = function (src, fn) {
     }
     
     (function walk (node) {
-        insertUpdate(node);
+        insertHelpers(node);
         
         Object.keys(node).forEach(function (key) {
             var child = node[key];
@@ -35,7 +34,7 @@ module.exports = function (src, fn) {
                 });
             }
             else if (child && typeof child === 'object' && child.type) {
-                insertUpdate(child);
+                insertHelpers(child);
                 walk(child);
             }
         });
