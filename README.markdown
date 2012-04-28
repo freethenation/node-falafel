@@ -85,6 +85,11 @@ node.update(s)
 
 Transform the source for the present node to the string `s`.
 
+node.parent
+-----------
+
+Reference to the parent element or `null` at the root element.
+
 install
 =======
 
