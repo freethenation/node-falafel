@@ -7,8 +7,11 @@ module.exports = function (src, fn) {
     var output = src.split('');
     var index = 0;
     
-    function insertHelpers (node) {
+    function insertHelpers (node, parent) {
         if (!node.range) return;
+        
+        node.parent = parent;
+        
         node.source = function () {
             return output.slice(node.range[0], node.range[1] + 1).join('');
         };
@@ -21,25 +24,27 @@ module.exports = function (src, fn) {
         };
     }
     
-    (function walk (node) {
-        insertHelpers(node);
+    (function walk (node, parent) {
+        insertHelpers(node, parent);
         
         Object.keys(node).forEach(function (key) {
+            if (key === 'parent') return;
+            
             var child = node[key];
             if (Array.isArray(child)) {
                 child.forEach(function (c) {
                     if (c && typeof c === 'object' && c.type) {
-                        walk(c);
+                        walk(c, node);
                     }
                 });
             }
             else if (child && typeof child === 'object' && child.type) {
-                insertHelpers(child);
-                walk(child);
+                insertHelpers(child, node);
+                walk(child, node);
             }
         });
         fn(node);
-    })(ast);
+    })(ast, undefined);
     
     return output.join('');
 };
