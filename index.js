@@ -1,8 +1,16 @@
 var parse = require('esprima').parse;
 
 module.exports = function (src, fn) {
+    var opts = {};
+    if (typeof src === 'object') {
+        opts = src;
+        src = opts.source;
+        delete opts.source;
+    }
+    opts.range = true;
     if (typeof src !== 'string') src = String(src);
-    var ast = parse(src, { range : true });
+    
+    var ast = parse(src, opts);
     
     var output = src.split('');
     var index = 0;
