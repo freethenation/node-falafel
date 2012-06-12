@@ -1,5 +1,4 @@
 var parse = require('esprima').parse;
-var json = typeof JSON === 'object' ? JSON : require('jsonify');
 
 module.exports = function (src, fn) {
     var opts = {};

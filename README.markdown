@@ -56,14 +56,18 @@ var falafel = require('falafel')
 falafel(src, fn)
 ----------------
 
-Transform the string source `src` with the function `fn`, returning the
-transformed string output.
+Transform the string source `src` with the function `fn`, returning a
+string-like transformed output object.
 
 For every node in the ast, `fn(node)` fires. The recursive walk is a
 pre-traversal, so children get called before their parents.
 
 Performing a pre-traversal makes it easier to write nested transforms since
 transforming parents often requires transforming all its children first.
+
+The return value is string-like (it defines `.toString()` and `.inspect()`) so
+that you can call `node.update()` asynchronously after the function has
+returned and still capture the output.
 
 If `typeof src === 'object'`, then `src.source` will be used for the source and
 the rest of the options will be passed directly along to esprima except for
