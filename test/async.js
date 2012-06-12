@@ -12,13 +12,13 @@ test('array', function (t) {
     } + ')()';
     
     var pending = 0;
-    var output = falafel.map(src, function (node) {
+    var output = falafel(src, function (node) {
         if (node.type === 'ArrayExpression') {
             pending ++;
             setTimeout(function () {
                 node.update('fn(' + node.source() + ')');
                 if (--pending === 0) check();
-            }, Math.random() * 50);
+            }, 10);
         }
     });
     
@@ -30,10 +30,7 @@ test('array', function (t) {
     ];
     
     function check () {
-console.log(src);
-console.log('------------');
-console.log(output.source);
-        vm.runInNewContext(output.source, {
+        vm.runInNewContext(output, {
             fn : function (xs) {
                 t.same(arrays.shift(), xs);
                 return xs;

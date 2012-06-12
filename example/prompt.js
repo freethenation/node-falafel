@@ -19,7 +19,7 @@ function terminated (node) {
 var src = '{"a":[2,~9,prompt(":d")],"b":4,"c":prompt("beep"),"d":6}';
 
 var offsets = [];
-var out = falafel.map('(' + src + ')', function (node) {
+var output = falafel('(' + src + ')', function (node) {
     var isLeaf = node.parent
         && !terminated(node.parent) && terminated(node)
     ;
@@ -45,5 +45,5 @@ var out = falafel.map('(' + src + ')', function (node) {
 setTimeout(function () {
     console.log(src);
     console.log('---');
-    console.log(out.source);
+    console.log(output);
 }, 200);

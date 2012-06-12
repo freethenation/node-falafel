@@ -1,6 +1,7 @@
 var parse = require('esprima').parse;
+var json = typeof JSON === 'object' ? JSON : require('jsonify');
 
-exports = module.exports = function (src, fn) {
+module.exports = function (src, fn) {
     var opts = {};
     if (typeof src === 'object') {
         opts = src;
@@ -12,7 +13,11 @@ exports = module.exports = function (src, fn) {
     
     var ast = parse(src, opts);
     
-    var output = src.split('');
+    var result = {
+        chunks : src.split(''),
+        toString : function () { return result.chunks.join('') },
+        inspect : function () { return result.toString() }
+    };
     var index = 0;
     
     function insertHelpers (node, parent) {
@@ -21,13 +26,15 @@ exports = module.exports = function (src, fn) {
         node.parent = parent;
         
         node.source = function () {
-            return output.slice(node.range[0], node.range[1] + 1).join('');
+            return result.chunks.slice(
+                node.range[0], node.range[1] + 1
+            ).join('');
         };
         
         node.update = function (s) {
-            output[node.range[0]] = s;
+            result.chunks[node.range[0]] = s;
             for (var i = node.range[0] + 1; i < node.range[1] + 1; i++) {
-                output[i] = '';
+                result.chunks[i] = '';
             }
         };
     }
@@ -54,7 +61,5 @@ exports = module.exports = function (src, fn) {
         fn(node);
     })(ast, undefined);
     
-    return output.join('');
+    return result;
 };
-
-exports.map = require('./lib/async');
