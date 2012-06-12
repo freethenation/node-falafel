@@ -30,6 +30,9 @@ test('array', function (t) {
     ];
     
     function check () {
+console.log(src);
+console.log('------------');
+console.log(output.source);
         vm.runInNewContext(output.source, {
             fn : function (xs) {
                 t.same(arrays.shift(), xs);

@@ -1,6 +1,6 @@
 var parse = require('esprima').parse;
 
-module.exports = function (src, fn) {
+exports = module.exports = function (src, fn) {
     var opts = {};
     if (typeof src === 'object') {
         opts = src;
@@ -56,3 +56,5 @@ module.exports = function (src, fn) {
     
     return output.join('');
 };
+
+exports.map = require('./lib/async');
