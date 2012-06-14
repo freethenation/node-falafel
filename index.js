@@ -1,6 +1,8 @@
-var parse = require('esprima').parse;
+(function() {
 
-module.exports = function (src, fn) {
+var parse = typeof(window)=='undefined' ? require('esprima').parse : window.esprima.parse;
+
+var falafel = function (src, fn) {
     var opts = {};
     if (typeof src === 'object') {
         opts = src;
@@ -8,19 +10,19 @@ module.exports = function (src, fn) {
         delete opts.source;
     }
     opts.range = true;
-    if (typeof src !== 'string') src = String(src);
+    if (typeof src !== 'string') { src = String(src); }
 
     var ast = parse(src, opts);
 
     var result = {
         chunks : src.split(''),
-        toString : function () { return result.chunks.join('') },
-        inspect : function () { return result.toString() }
+        toString : function () { return result.chunks.join(''); },
+        inspect : function () { return result.toString(); }
     };
     var index = 0;
 
     function insertHelpers (node, parent) {
-        if (!node.range) return;
+        if (!node.range) { return; }
 
         node.parent = parent;
 
@@ -42,7 +44,7 @@ module.exports = function (src, fn) {
         insertHelpers(node, parent);
 
         Object.keys(node).forEach(function (key) {
-            if (key === 'parent') return;
+            if (key === 'parent') { return; }
 
             var child = node[key];
             if (Array.isArray(child)) {
@@ -62,3 +64,9 @@ module.exports = function (src, fn) {
 
     return result;
 };
+
+//export
+if(typeof(window)=='undefined') { module.exports = falafel; }
+else { window.falafel = falafel; }
+
+})();
