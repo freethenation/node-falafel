@@ -30,7 +30,18 @@ module.exports = function (src, fn) {
             ).join('');
         };
         
-        node.update = function (s) {
+        if (typeof node.update === 'object') {
+            var prev = node.update;
+            Object.keys(prev).forEach(function (key) {
+                update[key] = prev[key];
+            });
+            node.update = update;
+        }
+        else {
+            node.update = update;
+        }
+        
+        function update (s) {
             result.chunks[node.range[0]] = s;
             for (var i = node.range[0] + 1; i < node.range[1] + 1; i++) {
                 result.chunks[i] = '';
@@ -47,12 +58,12 @@ module.exports = function (src, fn) {
             var child = node[key];
             if (Array.isArray(child)) {
                 child.forEach(function (c) {
-                    if (c && typeof c === 'object' && c.type) {
+                    if (c && typeof c.type === 'string') {
                         walk(c, node);
                     }
                 });
             }
-            else if (child && typeof child === 'object' && child.type) {
+            else if (child && typeof child.type === 'string') {
                 insertHelpers(child, node);
                 walk(child, node);
             }
