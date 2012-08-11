@@ -3,7 +3,7 @@ var test = require('tap').test;
 var vm = require('vm');
 
 test('for loop', function (t) {
-    t.plan(2);
+    t.plan(3);
     
     var src = '(' + function () {
         var sum = 0;
@@ -17,6 +17,9 @@ test('for loop', function (t) {
         if (node.type === 'ForStatement') {
             t.equal(node.update.source(), 'i++');
             node.update.update('i+=2');
+        }
+        if (node.type === 'UpdateExpression') {
+            t.equal(node.source(), 'i++');
         }
     });
     
