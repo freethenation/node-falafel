@@ -96,6 +96,10 @@ node.update(s)
 
 Transform the source for the present node to the string `s`.
 
+Note that in `'ForStatement'` node types, there is an existing subnode called
+`update`. For those nodes all the properties are copied over onto the
+`node.update()` function.
+
 node.parent
 -----------
 
