@@ -55,7 +55,7 @@ function insertHelpers (node, parent, chunks) {
         ).join('');
     };
     
-    if (typeof node.update === 'object') {
+    if (node.update && typeof node.update === 'object') {
         var prev = node.update;
         Object.keys(prev).forEach(function (key) {
             update[key] = prev[key];
