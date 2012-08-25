@@ -1,12 +1,16 @@
 var parse = require('esprima').parse;
 
-module.exports = function (src, fn) {
-    var opts = {};
+module.exports = function (src, opts, fn) {
+    if (typeof opts === 'function') {
+        fn = opts;
+        opts = {};
+    }
     if (typeof src === 'object') {
         opts = src;
         src = opts.source;
         delete opts.source;
     }
+    src = src || opts.source;
     opts.range = true;
     if (typeof src !== 'string') src = String(src);
     
