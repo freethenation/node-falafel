@@ -1,6 +1,5 @@
 var falafel = require('../');
 var test = require('tap').test;
-var vm = require('vm');
 
 test('array', function (t) {
     t.plan(5);
@@ -30,14 +29,14 @@ test('array', function (t) {
     ];
     
     function check () {
-        vm.runInNewContext(output, {
-            fn : function (xs) {
+        Function([ 'fn', 'g' ], output)(
+            function (xs) {
                 t.same(arrays.shift(), xs);
                 return xs;
             },
-            g : function (xs) {
+            function (xs) {
                 t.same(xs, [ [ 1, 2, [ 3, 4 ] ], [ 5, 6 ] ]);
-            },
-        });
+            }
+        );
     }
 });

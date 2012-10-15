@@ -1,6 +1,5 @@
 var falafel = require('../');
 var test = require('tap').test;
-var vm = require('vm');
 
 test('parent', function (t) {
     t.plan(5);
@@ -20,9 +19,5 @@ test('parent', function (t) {
         }
     });
     
-    vm.runInNewContext(output, {
-        fn : function (x) {
-            t.equal(x, 4);
-        },
-    });
+    Function(['fn'], output)(function (x) { t.equal(x, 4) });
 });
