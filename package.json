@@ -36,5 +36,15 @@
         "name" : "James Halliday",
         "email" : "mail@substack.net",
         "url" : "http://substack.net"
+    },
+    "testling" : {
+        "files" : "test/*.js",
+        "browsers" : {
+            "iexplore" : [ "8.0", "9.0" ],
+            "chrome" : [ "20.0" ],
+            "firefox" : [ "13.0" ],
+            "safari" : [ "5.1" ],
+            "opera" : [ "11.6" ]
+        }
     }
 }
