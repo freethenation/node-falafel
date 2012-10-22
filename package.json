@@ -38,7 +38,7 @@
         "url" : "http://substack.net"
     },
     "testling" : {
-        "files" : "test/*.js",
+        "files" : "test/for.js",
         "browsers" : {
             "iexplore" : [ "9.0" ],
             "chrome" : [ "20.0" ],
