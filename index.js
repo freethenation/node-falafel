@@ -1,7 +1,7 @@
 (function() {
 
 var parse = typeof(window)=='undefined' ? require('esprima').parse : window.esprima.parse;
-falafel = function (src, opts, fn) {
+var falafel = function (src, opts, fn) {
     if (typeof opts === 'function') {
         fn = opts;
         opts = {};
