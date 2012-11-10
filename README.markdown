@@ -1,8 +1,9 @@
-falafel
-=======
+# falafel
 
 Transform the [ast](http://en.wikipedia.org/wiki/Abstract_syntax_tree) on a
 recursive walk.
+
+[![browser support](http://ci.testling.com/substack/node-falafel.png)](http://ci.testling.com/substack/node-falafel)
 
 [![build status](https://secure.travis-ci.org/substack/node-falafel.png)](http://travis-ci.org/substack/node-falafel)
 
@@ -11,11 +12,9 @@ except that it uses [esprima](http://esprima.org) instead of
 [uglify](https://github.com/mishoo/UglifyJS)
 for friendlier-looking ast nodes.
 
-example
-=======
+# example
 
-array.js
---------
+## array.js
 
 Put a function wrapper around all array literals.
 
@@ -46,15 +45,13 @@ output:
 })()
 ```
 
-methods
-=======
+# methods
 
 ``` js
 var falafel = require('falafel')
 ```
 
-falafel(src, fn)
-----------------
+## falafel(src, opts={}, fn)
 
 Transform the string source `src` with the function `fn`, returning a
 string-like transformed output object.
@@ -69,15 +66,15 @@ The return value is string-like (it defines `.toString()` and `.inspect()`) so
 that you can call `node.update()` asynchronously after the function has
 returned and still capture the output.
 
-If `typeof src === 'object'`, then `src.source` will be used for the source and
-the rest of the options will be passed directly along to esprima except for
-`'range'` which is always turned on because falafel needs it.
+Instead of passing a `src` you can also use `opts.source`.
+
+All of the `opts` will be passed directly to esprima except for `'range'` which
+is always turned on because falafel needs it.
 
 Some of the options you might want from esprima includes:
 `'loc'`, `'raw'`, `'comments'`, `'tokens'`, and `'tolerant'`.
 
-nodes
-=====
+# nodes
 
 Aside from the regular [esprima](http://esprima.org) data, you can also call
 some inserted methods on nodes.
@@ -85,24 +82,24 @@ some inserted methods on nodes.
 Aside from updating the current node, you can also reach into sub-nodes to call
 update functions on children from parent nodes.
 
-node.source()
--------------
+## node.source()
 
 Return the source for the given node, including any modifications made to
 children nodes.
 
-node.update(s)
---------------
+## node.update(s)
 
 Transform the source for the present node to the string `s`.
 
-node.parent
------------
+Note that in `'ForStatement'` node types, there is an existing subnode called
+`update`. For those nodes all the properties are copied over onto the
+`node.update()` function.
+
+## node.parent
 
 Reference to the parent element or `null` at the root element.
 
-install
-=======
+# install
 
 With [npm](http://npmjs.org) do:
 
@@ -110,7 +107,6 @@ With [npm](http://npmjs.org) do:
 npm install falafel
 ```
 
-license
-=======
+# license
 
 MIT

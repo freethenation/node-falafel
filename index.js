@@ -1,14 +1,17 @@
 (function() {
 
 var parse = typeof(window)=='undefined' ? require('esprima').parse : window.esprima.parse;
-
-var falafel = function (src, fn) {
-    var opts = {};
+falafel = function (src, opts, fn) {
+    if (typeof opts === 'function') {
+        fn = opts;
+        opts = {};
+    }
     if (typeof src === 'object') {
         opts = src;
         src = opts.source;
         delete opts.source;
     }
+    src = src || opts.source;
     opts.range = true;
     if (typeof src !== 'string') { src = String(src); }
 
@@ -21,27 +24,8 @@ var falafel = function (src, fn) {
     };
     var index = 0;
 
-    function insertHelpers (node, parent) {
-        if (!node.range) { return; }
-
-        node.parent = parent;
-
-        node.source = function () {
-            return result.chunks.slice(
-                node.range[0], node.range[1] + 1
-            ).join('');
-        };
-
-        node.update = function (s) {
-            result.chunks[node.range[0]] = s;
-            for (var i = node.range[0] + 1; i < node.range[1] + 1; i++) {
-                result.chunks[i] = '';
-            }
-        };
-    }
-
     (function walk (node, parent) {
-        insertHelpers(node, parent);
+        insertHelpers(node, parent, result.chunks);
 
         Object.keys(node).forEach(function (key) {
             if (key === 'parent') { return; }
@@ -49,13 +33,13 @@ var falafel = function (src, fn) {
             var child = node[key];
             if (Array.isArray(child)) {
                 child.forEach(function (c) {
-                    if (c && typeof c === 'object' && c.type) {
+                    if (c && typeof c.type === 'string') {
                         walk(c, node);
                     }
                 });
             }
-            else if (child && typeof child === 'object' && child.type) {
-                insertHelpers(child, node);
+            else if (child && typeof child.type === 'string') {
+                insertHelpers(child, node, result.chunks);
                 walk(child, node);
             }
         });
@@ -64,6 +48,36 @@ var falafel = function (src, fn) {
 
     return result;
 };
+ 
+function insertHelpers (node, parent, chunks) {
+    if (!node.range) return;
+    
+    node.parent = parent;
+    
+    node.source = function () {
+        return chunks.slice(
+            node.range[0], node.range[1]
+        ).join('');
+    };
+    
+    if (node.update && typeof node.update === 'object') {
+        var prev = node.update;
+        Object.keys(prev).forEach(function (key) {
+            update[key] = prev[key];
+        });
+        node.update = update;
+    }
+    else {
+        node.update = update;
+    }
+    
+    function update (s) {
+        chunks[node.range[0]] = s;
+        for (var i = node.range[0] + 1; i < node.range[1]; i++) {
+            chunks[i] = '';
+        }
+    };
+}
 
 //export
 if(typeof(window)=='undefined') { module.exports = falafel; }
