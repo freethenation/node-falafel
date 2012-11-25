@@ -28,6 +28,7 @@ var falafel = function (src, opts, fn, breathFirstFn) {
 
     (function walk (node, parent) {
         insertHelpers(node, parent, result.chunks);
+        breathFirstFn(node);
 
         Object.keys(node).forEach(function (key) {
             if (key === 'parent') { return; }
@@ -42,7 +43,7 @@ var falafel = function (src, opts, fn, breathFirstFn) {
             }
             else if (child && typeof child.type === 'string') {
                 insertHelpers(child, node, result.chunks);
-				breathFirstFn(child);
+                breathFirstFn(child);
                 walk(child, node);
             }
         });
