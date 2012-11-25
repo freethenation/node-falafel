@@ -1,10 +1,11 @@
 (function() {
 
 var parse = typeof(window)=='undefined' ? require('esprima').parse : window.esprima.parse;
-var falafel = function (src, opts, fn) {
+var falafel = function (src, opts, fn, breathFirstFn) {
     if (typeof opts === 'function') {
         fn = opts;
         opts = {};
+		breathFirstFn = fn;
     }
     if (typeof src === 'object') {
         opts = src;
@@ -14,6 +15,7 @@ var falafel = function (src, opts, fn) {
     src = src || opts.source;
     opts.range = true;
     if (typeof src !== 'string') { src = String(src); }
+	if (typeof breathFirstFn === 'undefined') { breathFirstFn = function(){}; }
 
     var ast = parse(src, opts);
 
@@ -40,6 +42,7 @@ var falafel = function (src, opts, fn) {
             }
             else if (child && typeof child.type === 'string') {
                 insertHelpers(child, node, result.chunks);
+				breathFirstFn(child);
                 walk(child, node);
             }
         });
