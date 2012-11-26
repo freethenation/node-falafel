@@ -26,7 +26,8 @@
         "esprima" : "1.0.0"
     },
     "devDependencies" : {
-        "tap" : "~0.2.4"
+        "tape" : "~0.0.2",
+        "tap" : "~0.3.0"
     },
     "engines" : {
         "node" : ">=0.4.0"
