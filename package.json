@@ -41,9 +41,11 @@
     "testling" : {
         "files" : "test/for.js",
         "browsers" : {
-            "iexplore" : [ "9.0" ],
+            "iexplore" : [ "6.0", "7.0", "8.0", "9.0" ],
             "chrome" : [ "20.0" ],
-            "firefox" : [ "13.0" ]
+            "firefox" : [ "13.0" ],
+            "safari" : [ "5.1" ],
+            "opera" : [ "12.0" ]
         }
     }
 }
