@@ -92,5 +92,3 @@ function insertHelpers (node, parent, chunks) {
         }
     };
 }
-
-}
