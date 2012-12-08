@@ -34,7 +34,7 @@ module.exports = function (src, opts, fn) {
     var result = {
         chunks : src.split(''),
         toString : function () { return result.chunks.join('') },
-        inspect : function () { return result.toString() },
+        inspect : function () { return result.toString() }
     };
     var index = 0;
     
