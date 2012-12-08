@@ -12,12 +12,22 @@ test('parent', function (t) {
     var output = falafel(src, function (node) {
         if (node.type === 'ArrayExpression') {
             t.equal(node.parent.type, 'VariableDeclarator');
-            t.equal(node.parent.source(), 'xs = [ 1, 2, 3 ]');
+            t.equal(
+                ffBracket(node.parent.source()),
+                'xs = [ 1, 2, 3 ]'
+            );
             t.equal(node.parent.parent.type, 'VariableDeclaration');
-            t.equal(node.parent.parent.source(), 'var xs = [ 1, 2, 3 ];');
+            t.equal(
+                ffBracket(node.parent.parent.source()),
+                'var xs = [ 1, 2, 3 ];'
+            );
             node.parent.update('ys = 4;');
         }
     });
     
     Function(['fn'], output)(function (x) { t.equal(x, 4) });
 });
+
+function ffBracket (s) {
+    return s.replace(/\[\s*/, '[ ').replace(/\s*\]/, ' ]');
+}
