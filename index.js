@@ -31,9 +31,10 @@ var falafel = function (src, opts, fn, breathFirstFn) {
     opts.range = true;
     if (typeof src !== 'string') { src = String(src); }
     if (!breathFirstFn) { breathFirstFn = function(){}; }
-
-    var ast = parse(src, opts);
-
+    
+    var ast = opts.ast || parse(src, opts);
+    delete opts.ast;
+    
     var result = {
         chunks : src.split(''),
         toString : function () { return result.chunks.join(''); },
