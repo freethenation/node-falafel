@@ -16,7 +16,7 @@ var isArray = Array.isArray || function (xs) {
     return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-var parse = typeof(window)=='undefined' ? require('esprima').parse : window.esprima.parse;
+var parse = typeof(module)=='undefined' ? window.esprima.parse : require('esprima').parse;
 var falafel = function (src, opts, fn, breadthFirstFn) {
     if (typeof opts === 'function') {
         breadthFirstFn = fn;
@@ -101,7 +101,7 @@ function insertHelpers2 (node, parent, chunks) {
 }
 
 //export
-if(typeof(module)=='undefined') { window.falafel = falafel; }
+if(typeof(module)==='undefined') { window.falafel = falafel; }
 else { module.exports = falafel; }
 
 })();
