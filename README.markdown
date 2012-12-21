@@ -1,4 +1,4 @@
-# falafel
+# free-falafel
 
 Transform the [ast](http://en.wikipedia.org/wiki/Abstract_syntax_tree) on a
 recursive walk.
@@ -12,7 +12,7 @@ except that it uses [esprima](http://esprima.org) instead of
 [uglify](https://github.com/mishoo/UglifyJS)
 for friendlier-looking ast nodes.
 
-# example
+# Example
 
 ## array.js
 
@@ -45,28 +45,30 @@ output:
 })()
 ```
 
-# methods
+# Methods
 
 ``` js
 var falafel = require('falafel')
 ```
 
-## falafel(src, opts={}, fn)
+## falafel(src, opts={}, fn, breadthFirstFn)
 
 Transform the string source `src` with the function `fn`, returning a
 string-like transformed output object.
 
-For every node in the ast, `fn(node)` fires. The recursive walk is a
-pre-traversal, so children get called before their parents.
+For every node in the ast, `fn(node)` fires. The recursive walk is 
+depth first, so children get called before their parents.
 
-Performing a pre-traversal makes it easier to write nested transforms since
-transforming parents often requires transforming all its children first.
+Performing the transforms during a depth first traversal makes it easier 
+to write nested transforms since transforming parents often requires transforming 
+all its children first.
 
 The return value is string-like (it defines `.toString()` and `.inspect()`) so
 that you can call `node.update()` asynchronously after the function has
 returned and still capture the output.
 
-Instead of passing a `src` you can also use `opts.source`.
+Instead of passing a `src` you can also pass `opts.source` or, if the source code
+has already been parsed into an ast, you can pass `opts.ast`.
 
 All of the `opts` will be passed directly to esprima except for `'range'` which
 is always turned on because falafel needs it.
@@ -74,7 +76,13 @@ is always turned on because falafel needs it.
 Some of the options you might want from esprima includes:
 `'loc'`, `'raw'`, `'comments'`, `'tokens'`, and `'tolerant'`.
 
-# nodes
+You can optionally provide the function `breadthFirstFn`. This function will be
+called before `fn` during a breadth first traversal of the ast. This function allows
+you to add additional properties to the `node` parameter so that you can easily do things
+like not transforming any code inside of a function definition. There is an example of
+this below.
+
+# Nodes
 
 Aside from the regular [esprima](http://esprima.org) data, you can also call
 some inserted methods on nodes.
@@ -89,7 +97,8 @@ children nodes.
 
 ## node.update(s)
 
-Transform the source for the present node to the string `s`.
+Transform the source for the present node to the string `s`. This function is not
+available during the breadth first traversal of the ast.
 
 Note that in `'ForStatement'` node types, there is an existing subnode called
 `update`. For those nodes all the properties are copied over onto the
@@ -99,15 +108,15 @@ Note that in `'ForStatement'` node types, there is an existing subnode called
 
 Reference to the parent element or `null` at the root element.
 
-# install
+# Install
 
 With [npm](http://npmjs.org) do:
 
 ```
-npm install falafel
+npm install free-falafel
 ```
 
-# license
+# License
 
 MIT
 
