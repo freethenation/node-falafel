@@ -1,10 +1,10 @@
 {
-    "name" : "falafel",
+    "name" : "free-falafel",
     "description" : "transform the ast on a recursive walk",
-    "version" : "0.1.4",
+    "version" : "0.1.5",
     "repository" : {
         "type" : "git",
-        "url" : "git://github.com/substack/node-falafel.git"
+        "url" : "https://github.com/freethenation/node-falafel.git"
     },
     "main" : "index.js",
     "keywords" : [
@@ -20,10 +20,10 @@
         "test" : "test"
     },
     "scripts" : {
-        "test" : "tap test/*.js"
+        "test" : "tap ./test/array.js ./test/async.js ./test/for.js ./test/parent.js"
     },
     "dependencies" : {
-        "esprima" : "1.0.0"
+        "esprima" : "1.0.2"
     },
     "devDependencies" : {
         "tape" : "~0.0.2",
@@ -33,11 +33,6 @@
         "node" : ">=0.4.0"
     },
     "license" : "MIT",
-    "author" : {
-        "name" : "James Halliday",
-        "email" : "mail@substack.net",
-        "url" : "http://substack.net"
-    },
     "testling" : {
         "files" : "test/*.js",
         "browsers" : {

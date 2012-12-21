@@ -21,7 +21,6 @@ var falafel = function (src, opts, fn, breathFirstFn) {
     if (typeof opts === 'function') {
         fn = opts;
         opts = {};
-        breathFirstFn = fn;
     }
     if (typeof src === 'object') {
         opts = src;
@@ -31,7 +30,7 @@ var falafel = function (src, opts, fn, breathFirstFn) {
     src = src || opts.source;
     opts.range = true;
     if (typeof src !== 'string') { src = String(src); }
-    if (typeof breathFirstFn === 'undefined') { breathFirstFn = function(){}; }
+    if (!breathFirstFn) { breathFirstFn = function(){}; }
 
     var ast = parse(src, opts);
 
@@ -97,7 +96,7 @@ function insertHelpers (node, parent, chunks) {
 }
 
 //export
-if(typeof(window)=='undefined') { module.exports = falafel; }
-else { window.falafel = falafel; }
+if(typeof(module)=='undefined') { window.falafel = falafel; }
+else { module.exports = falafel; }
 
 })();
