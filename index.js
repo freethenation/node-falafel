@@ -1,5 +1,5 @@
 (function() {
-var parse = require('esprima').parse;
+var parse = typeof(module)=='undefined' ? window.esprima.parse : require('esprima').parse;
 var objectKeys = Object.keys || function (obj) {
     var keys = [];
     for (var key in obj) keys.push(key);
@@ -16,7 +16,6 @@ var isArray = Array.isArray || function (xs) {
     return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-var parse = typeof(module)=='undefined' ? window.esprima.parse : require('esprima').parse;
 var falafel = function (src, opts, fn, breadthFirstFn) {
     if (typeof opts === 'function') {
         breadthFirstFn = fn;
