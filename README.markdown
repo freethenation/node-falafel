@@ -3,8 +3,6 @@
 Transform the [ast](http://en.wikipedia.org/wiki/Abstract_syntax_tree) on a
 recursive walk.
 
-[![browser support](http://ci.testling.com/substack/node-falafel.png)](http://ci.testling.com/substack/node-falafel)
-
 [![build status](https://secure.travis-ci.org/substack/node-falafel.png)](http://travis-ci.org/substack/node-falafel)
 
 This module is like [burrito](https://github.com/substack/node-burrito),
@@ -107,6 +105,51 @@ Note that in `'ForStatement'` node types, there is an existing subnode called
 ## node.parent
 
 Reference to the parent element or `null` at the root element.
+
+# More Examples
+
+## breadthFirstFn example
+Put a function wrapper around all array literals that are not inside of a function definition.
+
+``` js
+var falafel = require('falafel');
+
+var src = '(' + function () {
+    var xs = [ 1, 2, [ 3, 4 ] ];
+    var ys = [ 5, 6 ];
+    console.dir([ xs, ys ]);
+} + ')();\n';
+src += 'var g = [ 5, 6 ];';
+
+var output = falafel(src, 
+    function (node) {
+        if (node.type === 'ArrayExpression' && !node.inFunc) {
+            node.update('fn(' + node.source() + ')');
+        }
+    },
+    function (node) {
+        if (node.type === 'FunctionExpression') {
+            node.inFunc = true;
+        }
+        else if (node.parent.inFunc) {
+            //inherit from parent
+            node.inFunc = node.parent.inFunc;
+        }
+        else { node.inFunc = false; }
+    });
+console.log(output);
+```
+
+output:
+
+```
+(function () {
+    var xs = [ 1, 2, [ 3, 4 ] ];
+    var ys = [ 5, 6 ];
+    console.dir([ xs, ys ]);
+})();
+var g = fn([ 5, 6 ]);
+```
 
 # Install
 

@@ -20,7 +20,7 @@
         "test" : "test"
     },
     "scripts" : {
-        "test" : "tap ./test/array.js ./test/async.js ./test/for.js ./test/parent.js ./test/breathFirstFn.js"
+        "test" : "tap ./test/array.js ./test/async.js ./test/for.js ./test/parent.js ./test/breadthFirstFn.js"
     },
     "dependencies" : {
         "esprima" : "1.0.2"
