@@ -1,4 +1,20 @@
 (function() {
+var parse = require('esprima').parse;
+var objectKeys = Object.keys || function (obj) {
+    var keys = [];
+    for (var key in obj) keys.push(key);
+    return keys;
+};
+var forEach = function (xs, fn) {
+    if (xs.forEach) return xs.forEach(fn);
+    for (var i = 0; i < xs.length; i++) {
+        fn.call(xs, xs[i], i, xs);
+    }
+};
+
+var isArray = Array.isArray || function (xs) {
+    return Object.prototype.toString.call(xs) === '[object Array]';
+};
 
 var parse = typeof(window)=='undefined' ? require('esprima').parse : window.esprima.parse;
 var falafel = function (src, opts, fn, breathFirstFn) {
@@ -29,13 +45,11 @@ var falafel = function (src, opts, fn, breathFirstFn) {
     (function walk (node, parent) {
         insertHelpers(node, parent, result.chunks);
         breathFirstFn(node);
-
-        Object.keys(node).forEach(function (key) {
+        forEach(objectKeys(node), function (key) {
             if (key === 'parent') { return; }
-
             var child = node[key];
-            if (Array.isArray(child)) {
-                child.forEach(function (c) {
+            if (isArray(child)) {
+                forEach(child, function (c) {
                     if (c && typeof c.type === 'string') {
                         walk(c, node);
                     }
@@ -65,7 +79,7 @@ function insertHelpers (node, parent, chunks) {
     
     if (node.update && typeof node.update === 'object') {
         var prev = node.update;
-        Object.keys(prev).forEach(function (key) {
+        forEach(objectKeys(prev), function (key) {
             update[key] = prev[key];
         });
         node.update = update;

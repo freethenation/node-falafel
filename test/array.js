@@ -1,5 +1,5 @@
 var falafel = require('../');
-var test = require('tap').test;
+var test = require('tape');
 
 test('array', function (t) {
     t.plan(5);

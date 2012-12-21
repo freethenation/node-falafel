@@ -1,5 +1,5 @@
 var falafel = require('../');
-var test = require('tap').test;
+var test = require('tape');
 
 test('for loop', function (t) {
     t.plan(3);
@@ -24,4 +24,5 @@ test('for loop', function (t) {
     
     var res = Function('return ' + output)();
     t.equal(res, 2 + 4 + 6 + 8);
+    //t.equal(res, 222 + 4 + 6 + 8);
 });
