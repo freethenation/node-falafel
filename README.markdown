@@ -129,7 +129,7 @@ var output = falafel(src,
         if (node.type === 'FunctionExpression') {
             node.inFunc = true;
         }
-        else if (node.parent.inFunc) {
+        else if (node.parent && node.parent.inFunc) {
             //inherit from parent
             node.inFunc = node.parent.inFunc;
         }
