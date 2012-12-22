@@ -115,7 +115,7 @@ var falafel = require('falafel');
 var src = '(' + function () {
     var xs = [ 1, 2, [ 3, 4 ] ];
     var ys = [ 5, 6 ];
-    console.dir([ xs, ys ]);
+    somefunc([ xs, ys ]);
 } + ')();\n';
 src += 'var g = [ 5, 6 ];';
 
@@ -135,7 +135,7 @@ var output = falafel(src,
         }
         else { node.inFunc = false; }
     });
-console.log(output);
+console.log(output.toString());
 ```
 
 output:
@@ -144,10 +144,12 @@ output:
 (function () {
     var xs = [ 1, 2, [ 3, 4 ] ];
     var ys = [ 5, 6 ];
-    console.dir([ xs, ys ]);
+    somefunc([ xs, ys ]);
 })();
 var g = fn([ 5, 6 ]);
 ```
+
+You can play with this example at JS Bin [here](http://jsbin.com/free-falafel/4/edit)
 
 # Install
 
