@@ -44,7 +44,7 @@ output:
 # Methods
 
 ``` js
-var falafel = require('falafel')
+var falafel = require('free-falafel')
 ```
 
 ## falafel(src, opts={}, fn, breadthFirstFn)
@@ -110,7 +110,7 @@ Reference to the parent element or `null` at the root element.
 Put a function wrapper around all array literals that are not inside of a function definition.
 
 ``` js
-var falafel = require('falafel');
+var falafel = require('free-falafel');
 
 var src = '(' + function () {
     var xs = [ 1, 2, [ 3, 4 ] ];
