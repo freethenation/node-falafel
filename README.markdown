@@ -15,7 +15,7 @@ except that it uses [esprima](http://esprima.org) instead of
 Put a function wrapper around all array literals.
 
 ``` js
-var falafel = require('falafel');
+var falafel = require('free-falafel');
 
 var src = '(' + function () {
     var xs = [ 1, 2, [ 3, 4 ] ];
