@@ -25,7 +25,7 @@ module.exports = function (src, opts, fn) {
         src = opts.source;
         delete opts.source;
     }
-    src = src || opts.source;
+    src = src === undefined ? opts.source : src;
     opts.range = true;
     if (typeof src !== 'string') src = String(src);
     
