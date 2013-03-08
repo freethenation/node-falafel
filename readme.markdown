@@ -45,6 +45,47 @@ output:
 })()
 ```
 
+## custom keyword
+
+Creating custom keywords is super simple!
+
+This example creates a new `beep` keyword that uppercases its arguments:
+
+``` js
+var falafel = require('falafel');
+var src = 'console.log(beep "boop", "BOOP");';
+
+function isKeyword (id) {
+    if (id === 'beep') return true;
+}
+
+var output = falafel(src, { isKeyword: isKeyword }, function (node) {
+    if (node.type === 'UnaryExpression'
+    && node.operator === 'beep') {
+        node.update(
+            'String(' + node.argument.source() + ').toUpperCase()'
+        );
+    }
+});
+console.log(output);
+```
+
+Now the source string `console.log(beep "boop", "BOOP");` is converted to:
+
+```
+$ node example/keyword.js
+console.log(String("boop").toUpperCase(), "BOOP");
+```
+
+which we can execute:
+
+```
+$ node example/keyword.js | node
+BOOP BOOP
+```
+
+Neat!
+
 # methods
 
 ``` js
@@ -73,6 +114,11 @@ is always turned on because falafel needs it.
 
 Some of the options you might want from esprima includes:
 `'loc'`, `'raw'`, `'comments'`, `'tokens'`, and `'tolerant'`.
+
+falafel uses a custom patch of esprima with support for an `opts.isKeyword()`
+function. When `opts.isKeyword(id)` returns `true`, the string `id` will be
+treated as a keyword. You can use this behavior to create custom unary
+expression keywords.
 
 # nodes
 
