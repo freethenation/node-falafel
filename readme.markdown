@@ -12,6 +12,8 @@ except that it uses [esprima](http://esprima.org) instead of
 [uglify](https://github.com/mishoo/UglifyJS)
 for friendlier-looking ast nodes.
 
+![falafel döner](http://substack.net/images/falafel.png)
+
 # example
 
 ## array.js
