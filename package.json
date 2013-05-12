@@ -1,7 +1,7 @@
 {
     "name" : "free-falafel",
     "description" : "transform the ast on a recursive walk",
-    "version" : "0.2.1",
+    "version" : "0.2.2",
     "repository" : {
         "type" : "git",
         "url" : "https://github.com/freethenation/node-falafel.git"
@@ -30,7 +30,7 @@
         "tap" : "~0.3.0"
     },
     "engines" : {
-        "node" : ">=0.4.0" 
+        "node" : ">=0.7.0" 
     },
     "license" : "MIT",
     "testling" : {
