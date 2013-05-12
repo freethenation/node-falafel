@@ -162,4 +162,3 @@ npm install free-falafel
 # License
 
 MIT
-

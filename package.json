@@ -1,7 +1,7 @@
 {
     "name" : "free-falafel",
     "description" : "transform the ast on a recursive walk",
-    "version" : "0.1.6",
+    "version" : "0.2.1",
     "repository" : {
         "type" : "git",
         "url" : "https://github.com/freethenation/node-falafel.git"
@@ -23,7 +23,7 @@
         "test" : "tap ./test/array.js ./test/async.js ./test/for.js ./test/parent.js ./test/breadthFirstFn.js"
     },
     "dependencies" : {
-        "esprima" : "1.0.2"
+        "esprima" : "substack/esprima#is-keyword"
     },
     "devDependencies" : {
         "tape" : "~0.0.2",

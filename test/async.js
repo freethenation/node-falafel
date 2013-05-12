@@ -17,7 +17,7 @@ test('array', function (t) {
             setTimeout(function () {
                 node.update('fn(' + node.source() + ')');
                 if (--pending === 0) check();
-            }, 10);
+            }, 50 * pending * 2);
         }
     });
     

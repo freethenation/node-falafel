@@ -27,7 +27,7 @@ var falafel = function (src, opts, fn, breadthFirstFn) {
         src = opts.source;
         delete opts.source;
     }
-    src = src || opts.source;
+    src = src === undefined ? opts.source : src;
     opts.range = true;
     if (typeof src !== 'string') { src = String(src); }
     if (!breadthFirstFn) { breadthFirstFn = function(){}; }
